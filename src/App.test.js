@@ -57,3 +57,38 @@ test("button disabled when checkbox checked, vise versa", () => {
 	expect(colorButton).toBeEnabled();
 	expect(checkbox).not.toBeChecked();
 });
+
+// 버튼이 비활성화되었을 때 버튼의 색을 회색으로 바꿈
+// 플로우 1. 버튼 비활성화 -> 버튼 회색 -> 버튼 활성화 -> 버튼 빨간색
+// 플로우 2. 버튼 클릭 -> 버튼 비활성화 -> 버튼 회색
+// 플로우 3. 버튼 활성화 -> 버튼 파랑색
+test("button color changes to gray when checkbox checked, vise versa", () => {
+	render(<App />);
+	const colorButton = screen.getByRole("button", { name: "Change to blue" });
+	const checkbox = screen.getByRole("checkbox", { name: "Disable button" });
+
+	// button disabled
+	fireEvent.click(checkbox);
+	expect(colorButton).toHaveStyle({ backgroundColor: "gray" });
+
+	// button re-enabled
+	fireEvent.click(checkbox);
+	expect(colorButton).toHaveStyle({ backgroundColor: "red" });
+});
+
+test("disabled color has gray color and changes to blue when click button", () => {
+	render(<App />);
+	const colorButton = screen.getByRole("button", { name: "Change to blue" });
+	const checkbox = screen.getByRole("checkbox", { name: "Disable button" });
+
+	// change button color to blue
+	fireEvent.click(colorButton);
+
+	// button disabled
+	fireEvent.click(checkbox);
+	expect(colorButton).toHaveStyle({ backgroundColor: "gray" });
+
+	// button re-enabled
+	fireEvent.click(checkbox);
+	expect(colorButton).toHaveStyle({ backgroundColor: "blue" });
+});
