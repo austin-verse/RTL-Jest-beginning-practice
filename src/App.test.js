@@ -23,7 +23,15 @@ test("button has correct initial color, and update when clicked", () => {
 	expect(colorButton).toHaveTextContent("Change to red");
 });
 
-// test("button turns blue when clicked", () => {
-//   render(<App />);
-// 	const colorButton = screen.getByRole("button", { name: "Change to blue" });
-// });
+// 체크 박스를 추가하여 체크 박스가 켜진 상태일 경우 버튼이 비활성화 되고 체크박스를 끄면 버튼이 다시 활성화됨
+// 초기 - 버튼은 활성화 상태, 체크박스는 체크되지 않은 상태
+
+test("initial conditions", () => {
+	render(<App />);
+	// check that the button starts out enabled
+	const colorButton = screen.getByRole("button", { name: "Change to blue" });
+	expect(colorButton).toBeEnabled();
+	// check that the checkbox starts out unchecked
+	const checkbox = screen.getByRole("checkbox");
+	expect(checkbox).not.toBeChecked();
+});
