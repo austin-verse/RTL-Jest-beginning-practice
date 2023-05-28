@@ -1,5 +1,6 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import App from "./App";
+import { replaceCamelWithSpaces } from "./App";
 // 내부 상태(state)를 테스트하는 것이 아닌, 해당 버튼에 설정된 초기 조건(condition)을 테스트하는 것
 test("button has correct initial color, and update when clicked", () => {
 	// 가상 DOM 랜더링
@@ -91,4 +92,16 @@ test("disabled color has gray color and changes to blue when click button", () =
 	// button re-enabled
 	fireEvent.click(checkbox);
 	expect(colorButton).toHaveStyle({ backgroundColor: "blue" });
+});
+
+describe("spaces before camel-case capital letters", () => {
+	test("Works for no inner capital letter", () => {
+		expect(replaceCamelWithSpaces("Red")).toBe("Red");
+	});
+	test("Works for one inner capital letter", () => {
+		expect(replaceCamelWithSpaces("MidnightBlue")).toBe("Midnight Blue");
+	});
+	test("Works for multiple inner capital letters", () => {
+		expect(replaceCamelWithSpaces("MediumVioletRed")).toBe("Medium Violet Red");
+	});
 });
