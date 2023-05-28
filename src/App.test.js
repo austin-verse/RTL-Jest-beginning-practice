@@ -35,3 +35,25 @@ test("initial conditions", () => {
 	const checkbox = screen.getByRole("checkbox");
 	expect(checkbox).not.toBeChecked();
 });
+
+// 체크박스에 체크를 하고 버튼 비활성화 여부 확인
+// 체크박스 체크를 해제하고 버튼의 활성화 여부 확인
+// 버튼에 대한 단언으로 toBeEnabled 매처 사용
+// 반대로는 toBeDisabled 매처 사용
+// 초기조건 테스트와 분리
+
+test("button disabled when checkbox checked, vise versa", () => {
+	render(<App />);
+	const colorButton = screen.getByRole("button", { name: "Change to blue" });
+	const checkbox = screen.getByRole("checkbox");
+
+	// checkbox first click
+	fireEvent.click(checkbox);
+	expect(colorButton).toBeDisabled();
+	expect(checkbox).toBeChecked();
+
+	// checkbox second click
+	fireEvent.click(checkbox);
+	expect(colorButton).toBeEnabled();
+	expect(checkbox).not.toBeChecked();
+});
